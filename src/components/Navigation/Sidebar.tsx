@@ -4,12 +4,23 @@ import {
   LayoutDashboard, 
   Globe, 
   ShieldAlert, 
+  Briefcase,
   CalendarDays, 
   FileEdit, 
   CheckSquare, 
   ClipboardCheck, 
   BellRing,
-  Settings
+  Settings,
+  SlidersHorizontal,
+  Building2,
+  History,
+  Calendar,
+  CalendarRange,
+  FileText,
+  Files,
+  Calculator,
+  BriefcaseBusiness,
+  BarChart3
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -23,9 +34,19 @@ export const Sidebar: React.FC = () => {
     {
       title: 'Perencanaan',
       items: [
-        { name: 'Audit Universe', icon: <Globe size={20} />, path: '/planning/universe' },
-        { name: 'Risk Assessment', icon: <ShieldAlert size={20} />, path: '/planning/risk' },
-        { name: 'PKAT', icon: <CalendarDays size={20} />, path: '/planning/pkat' },
+        { name: 'Kriteria', icon: <SlidersHorizontal size={20} />, path: '/planning/kriteria' },
+        { name: 'STO', icon: <Building2 size={20} />, path: '/planning/sto' },
+        { name: 'Audit Terakhir Dept', icon: <History size={20} />, path: '/planning/last-audit' },
+        { name: 'Risk Corporate Dept', icon: <ShieldAlert size={20} />, path: '/planning/risk-corporate' },
+        { name: 'Audit Universe Dept', icon: <Globe size={20} />, path: '/planning/audit-universe' },
+        { name: 'Kalender', icon: <Calendar size={20} />, path: '/planning/calendar' },
+        { name: 'Rekap Kalender', icon: <CalendarRange size={20} />, path: '/planning/calendar-recap' },
+        { name: 'Agenda Form 1', icon: <FileText size={20} />, path: '/planning/agenda-form-1' },
+        { name: 'Agenda Form 2', icon: <Files size={20} />, path: '/planning/agenda-form-2' },
+        { name: 'Perhitungan Hari', icon: <Calculator size={20} />, path: '/planning/day-calculation' },
+        { name: 'PKAT', icon: <Briefcase size={20} />, path: '/planning/pkat' },
+        { name: 'PKNAT', icon: <BriefcaseBusiness size={20} />, path: '/planning/pknat' },
+        { name: 'Laporan', icon: <BarChart3 size={20} />, path: '/planning/report' },
       ]
     },
     {
