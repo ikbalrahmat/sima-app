@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, Search, User, Menu, ChevronDown } from 'lucide-react';
+import { Bell, Search, Menu, ChevronDown } from 'lucide-react';
 
 export const Header: React.FC = () => {
   return (
