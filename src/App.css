@@ -1,0 +1,5 @@
+/* Cleaned up App.css as we use Global CSS from index.css */
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
