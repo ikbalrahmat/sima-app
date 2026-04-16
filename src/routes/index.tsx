@@ -5,6 +5,9 @@ import { AppLayout } from '../layouts/AppLayout';
 import { Login } from '../pages/Login/Login';
 import { ForgotPassword } from '../pages/ForgotPassword/ForgotPassword';
 import { Dashboard } from '../pages/Dashboard/Dashboard';
+import { Kriteria } from '../pages/Planning/Kriteria/Kriteria';
+import { STO } from '../pages/Planning/STO/STO';
+import { UserManagement } from '../pages/Users/UserManagement';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -18,11 +21,15 @@ export const AppRoutes: React.FC = () => {
       <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         
-        {/* Placeholders for future Phase modules */}
-        <Route path="/planning/*" element={<div className="p-8"><h1>Planning Module</h1></div>} />
+        {/* Planning Module */}
+        <Route path="/planning/kriteria" element={<Kriteria />} />
+        <Route path="/planning/sto" element={<STO />} />
+        <Route path="/planning/*" element={<div className="p-8"><h1>Planning Module Placeholder</h1></div>} />
         <Route path="/execution/*" element={<div className="p-8"><h1>Execution Module</h1></div>} />
         <Route path="/reporting/*" element={<div className="p-8"><h1>Reporting Module</h1></div>} />
         <Route path="/follow-up/*" element={<div className="p-8"><h1>Follow-Up Module</h1></div>} />
+        
+        <Route path="/users" element={<UserManagement />} />
         <Route path="/settings" element={<div className="p-8"><h1>Settings</h1></div>} />
       </Route>
 

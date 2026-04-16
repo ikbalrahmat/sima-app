@@ -1,7 +1,17 @@
 import React from 'react';
-import { Bell, Search, Menu, ChevronDown } from 'lucide-react';
+import { Bell, Search, Menu, ChevronDown, LogOut } from 'lucide-react';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 export const Header: React.FC = () => {
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-10">
       
@@ -30,16 +40,28 @@ export const Header: React.FC = () => {
         
         <div className="h-6 w-px bg-slate-200 mx-2"></div>
         
-        <button className="flex items-center gap-3 hover:bg-slate-50 p-1.5 pr-3 rounded-lg transition-colors border border-transparent hover:border-slate-200">
-          <div className="w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">
-            AD
+        <div className="flex items-center gap-3 relative group">
+          <button className="flex items-center gap-3 hover:bg-slate-50 p-1.5 pr-3 rounded-lg transition-colors border border-transparent hover:border-slate-200">
+            <div className="w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm uppercase">
+              {user?.name?.substring(0, 2) || 'AD'}
+            </div>
+            <div className="hidden md:block text-left">
+              <p className="text-sm font-semibold text-slate-700 leading-none">{user?.name || 'Administrator'}</p>
+              <p className="text-xs text-brand-600 font-medium mt-1">{user?.role || 'System Role'}</p>
+            </div>
+            <ChevronDown size={16} className="text-slate-400 ml-1" />
+          </button>
+
+          {/* Simple Dropdown for Logout */}
+          <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+            <button 
+              onClick={handleLogout}
+              className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-lg font-medium"
+            >
+              <LogOut size={16} /> Keluar Aplikasi
+            </button>
           </div>
-          <div className="hidden md:block text-left">
-            <p className="text-sm font-semibold text-slate-700 leading-none">Super Admin</p>
-            <p className="text-xs text-slate-500 mt-1">Administrator</p>
-          </div>
-          <ChevronDown size={16} className="text-slate-400 ml-1" />
-        </button>
+        </div>
       </div>
       
     </header>

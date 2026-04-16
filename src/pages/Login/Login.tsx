@@ -1,23 +1,37 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { Mail, Lock, LogIn, Users } from 'lucide-react';
 import { Input } from '../../components/UI/Input';
 import { Button } from '../../components/UI/Button';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useDataStore } from '../../store/useDataStore';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
   const navigate = useNavigate();
+  const { login } = useAuthStore();
+  const { users } = useDataStore();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = (e?: React.FormEvent, mockEmail?: string) => {
+    if (e) e.preventDefault();
     setIsLoading(true);
     
     setTimeout(() => {
+      // Find user from mock store
+      const targetEmail = mockEmail || email;
+      const user = users.find(u => u.email === targetEmail);
+      
+      if (user) {
+        login(user);
+        navigate('/dashboard');
+      } else {
+        alert("User not found!");
+      }
       setIsLoading(false);
-      navigate('/dashboard'); 
-    }, 1500);
+    }, 800);
   };
 
   return (
@@ -35,7 +49,7 @@ export const Login: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           icon={<Mail size={18} />}
-          required
+          required={!email}
         />
         
         <Input
@@ -45,7 +59,7 @@ export const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           icon={<Lock size={18} />}
-          required
+          required={!email}
         />
 
         <div className="flex justify-end -mt-1 mb-4">
@@ -66,11 +80,22 @@ export const Login: React.FC = () => {
         </Button>
       </form>
 
-      <div className="mt-8 text-center text-sm text-slate-500 pt-6 border-t border-slate-200">
-        <p>
-          Internal systems only. Don't have an account?{' '}
-          <span className="text-brand-900 font-medium">Contact your Administrator.</span>
-        </p>
+      {/* Development / Testing Panel */}
+      <div className="mt-8 pt-6 border-t border-slate-200">
+        <div className="flex items-center gap-2 mb-4 justify-center text-slate-500 text-xs font-semibold uppercase tracking-wider">
+          <Users size={14} /> <span>Quick Login (Testing Only)</span>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {users.map(u => (
+            <button
+              key={u.id}
+              onClick={() => handleLogin(undefined, u.email)}
+              className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded transition-colors text-center font-medium"
+            >
+              {u.role}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

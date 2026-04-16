@@ -19,10 +19,15 @@ import {
   Files,
   Calculator,
   BriefcaseBusiness,
-  BarChart3
+  BarChart3,
+  Users
 } from 'lucide-react';
+import { useAuthStore } from '../../store/useAuthStore';
 
 export const Sidebar: React.FC = () => {
+  const { user } = useAuthStore();
+  const isAdminOrSuperAdmin = user?.role === 'Super Admin' || user?.role === 'Admin';
+  
   const menuGroups = [
     {
       title: 'Utama',
@@ -76,36 +81,55 @@ export const Sidebar: React.FC = () => {
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-8">
-        {menuGroups.map((group, idx) => (
-          <div key={idx}>
-            <h4 className="text-xs font-semibold text-brand-400 uppercase tracking-wider mb-3 px-2">
-              {group.title}
-            </h4>
-            <ul className="space-y-1">
-              {group.items.map((item, itemIdx) => (
-                <li key={itemIdx}>
-                  <NavLink
-                    to={item.path}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 ${
-                        isActive
-                          ? 'bg-brand-800 text-white font-medium shadow-inner'
-                          : 'hover:bg-brand-800/50 hover:text-white'
-                      }`
-                    }
-                  >
-                    {item.icon}
-                    <span className="text-sm">{item.name}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        {menuGroups.map((group, idx) => {
+          // Simplifikasi: Auditee tidak butuh menu Planning lengkap dalam dunia nyata,
+          // tapi untuk prototipe ini kita tampilkan semua, atau filter jika di-define.
+          return (
+            <div key={idx}>
+              <h4 className="text-xs font-semibold text-brand-400 uppercase tracking-wider mb-3 px-2">
+                {group.title}
+              </h4>
+              <ul className="space-y-1">
+                {group.items.map((item, itemIdx) => (
+                  <li key={itemIdx}>
+                    <NavLink
+                      to={item.path}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 ${
+                          isActive
+                            ? 'bg-brand-800 text-white font-medium shadow-inner'
+                            : 'hover:bg-brand-800/50 hover:text-white'
+                        }`
+                      }
+                    >
+                      {item.icon}
+                      <span className="text-sm">{item.name}</span>
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </nav>
 
       {/* Footer / Settings Menu */}
-      <div className="px-4 py-4 border-t border-brand-800 bg-brand-950/30">
+      <div className="px-4 py-4 border-t border-brand-800 bg-brand-950/30 flex flex-col gap-1">
+        {isAdminOrSuperAdmin && (
+          <NavLink
+            to="/users"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 ${
+                isActive
+                  ? 'bg-brand-800 text-white font-medium shadow-inner'
+                  : 'hover:bg-brand-800/50 hover:text-white'
+              }`
+            }
+          >
+            <Users size={20} />
+            <span className="text-sm">Manajemen User</span>
+          </NavLink>
+        )}
         <NavLink
             to="/settings"
             className={({ isActive }) =>
